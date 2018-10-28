@@ -116,6 +116,7 @@ class Game(state.State):
         self.player = objects.Player(self, 2)
         self.map = maploader.GameMap(self)
         self.map.parse("data/maps/world-map.map")
+        # self.map.parse("data/maps/Start.map")
         self.world_rect = Rect(0, 0, self.map.info.size[0], self.map.info.size[1])
         self.make_background()
         self.font = rgl.font.Font(NES_FONT)
