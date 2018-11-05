@@ -1,0 +1,10 @@
+Redesign the level editor and tiling/map system. The objects on the map should defined as blew format in a specific configuration file.
+
+[Class][GroupID][SequenceNo]: [ImagePath]
+
+Class: is 8 character string, right now only last two is used, 0000-0000 is ground, 0000-0001 is obstacle.
+GroupID: is a ID for name a group of objects, 8 character string, start from 0000-0000 to ZZZZ-ZZZZ. Predefined group is 0000-0000, for all non-interactive and non-obstable objects.
+SequenceNo: is a sequence number within particular group, 8 character string, 0000-0000 to ZZZZ-ZZZZ.
+ImagePath: is a string point to where the image file stored.
+
+

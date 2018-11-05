@@ -3,12 +3,14 @@ import objects, os
 
 class MapLoader(object):
     
-    def __init__(self, game, w=32, h=30, tw=16, th=16):
+    # def __init__(self, game, w=32, h=30, tw=16, th=16):
+    def __init__(self, game, w=32, h=30, tw=18, th=9):
         self.game = game
         self.tile_width = tw
         self.tile_height = th
         self.width = w
         self.height = h
+        self.config = {}
 
     def parse(self, file_name):
         self.file_name = file_name
@@ -33,7 +35,8 @@ class MapLoader(object):
                 x = y = 0
                 continue
             for char in row.split(" "):
-                self.on_char(char, x, y, layer)
+                # self.on_char(char, x, y, layer)
+                self.on_char_v2(char, x, y, layer)
                 x += 1
             y += 1
             x = 0
@@ -51,8 +54,31 @@ class MapLoader(object):
         script = open(fn, "rU").read()
         return script
 
+
 class GameMap(MapLoader):
-    
+   
+    # Davis:
+    # Load map configure
+    # Instead of hard code the map item ID vs images, we dynamically
+    # load it from configure file. This is the same code that works
+    # for level editor.
+    def load_config(self, cfg):
+        with open(cfg, 'rU') as config:
+            for line in config:
+                x = line.split(':')
+                if len(x) == 2:
+                    self.config[x[0]] = x[1].strip()
+
+    def on_char_v2(self, char, x, y, layer):
+        if char not in self.config:
+            return
+        x = x*self.tile_width
+        y = y*self.tile_height
+        if char[7:8] == '1': # obstacle
+            objects.Obstacle(self.game, x, y, self.config[char]).sides = [True, True, True, True]
+        else:
+            objects.Scenery(self.game, x, y, self.config[char])
+
     def on_char(self, char, x, y, layer):
         gx, gy = x, y
         x = x*self.tile_width

@@ -110,13 +110,18 @@ class Game(state.State):
         }
         self.npc_cache = {}
         
+        # self.camera = Rect(40, 40, 296, 296)
+        # self.camera_xbounds = 64
+        # self.camera_ybounds = 64
+        # self.camera = Rect(0, 0, 240, 240)
         self.camera = Rect(0, 0, 160, 144)
         self.camera_xbounds = 16
         self.camera_ybounds = 16
         self.player = objects.Player(self, 2)
         self.map = maploader.GameMap(self)
-        self.map.parse("data/maps/world-map.map")
-        # self.map.parse("data/maps/Start.map")
+        self.map.load_config("editor.cfg")
+        # self.map.parse("data/maps/world-map.map")
+        self.map.parse("data/maps/Home.map")
         self.world_rect = Rect(0, 0, self.map.info.size[0], self.map.info.size[1])
         self.make_background()
         self.font = rgl.font.Font(NES_FONT)
@@ -124,6 +129,7 @@ class Game(state.State):
     
     def make_background(self):
         self.camera.topleft = (0, 0)
+        # self.camera.topleft = (128, 128)
         self.background = pygame.Surface(self.world_rect.size)
         self.background.fill(self.map.info.floor_color)
         for o in self.scenery:
@@ -146,7 +152,7 @@ class Game(state.State):
         dest_name = self.map.info.doors[door.id][0]
         dr = self.map.info.doors[door.id]
         print dr
-        self.enter_area(dest_name, (0, 0))
+        self.enter_area(dest_name, (0,0))
         for d in self.doors:
             if d.id == dr[1]:
                 side = dr[2]

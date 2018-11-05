@@ -170,7 +170,8 @@ class Player(Person):
     
     def __init__(self, game, id):
         party = ["faldo", "shara", "igon"]
-        Person.__init__(self, game, party[2-id], (128, 128))
+        # Person.__init__(self, game, party[2-id], (128, 128))
+        Person.__init__(self, game, party[2-id], (120, 240))
         self.steps = []
         self.trailer = None
         if id > 0:
